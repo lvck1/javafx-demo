@@ -32,10 +32,12 @@ public class Snake {
     }
 
     public void setDirection(Direction direction) {
-        if ((this.direction == Direction.UP && direction != Direction.DOWN) ||
-            (this.direction == Direction.DOWN && direction != Direction.UP) ||
-            (this.direction == Direction.LEFT && direction != Direction.RIGHT) ||
-            (this.direction == Direction.RIGHT && direction != Direction.LEFT)) {
+        Direction lastDirection = (direction != nextDirection) ? nextDirection : this.direction;
+        
+        if ((lastDirection == Direction.UP && direction != Direction.DOWN) ||
+            (lastDirection == Direction.DOWN && direction != Direction.UP) ||
+            (lastDirection == Direction.LEFT && direction != Direction.RIGHT) ||
+            (lastDirection == Direction.RIGHT && direction != Direction.LEFT)) {
             this.nextDirection = direction;
         }
     }
