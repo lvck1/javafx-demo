@@ -35,8 +35,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
         System.setProperty("javafx.animation.fullscreen", "true");
-        System.setProperty("prism.order", "d3d");
-        System.setProperty("prism.d3d", "true");
+        System.setProperty("prism.order", "vk,v,d3d,sw");
         launch(args);
     }
 }
