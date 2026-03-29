@@ -55,6 +55,10 @@ public class GameController implements Initializable {
 
         difficultyLabel.setText("难度: " + currentDifficulty.getName());
 
+        gameEngine.setScoreChangedCallback(score -> {
+            scoreLabel.setText("分数: " + score);
+        });
+
         gameEngine.setGameOverCallback(score -> {
             scoreManager.addScore(score, currentDifficulty.getName());
             showGameOverDialog(score);

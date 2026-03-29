@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Food {
@@ -19,6 +20,25 @@ public class Food {
         int maxY = boardHeight / SIZE;
         x = random.nextInt(maxX) * SIZE;
         y = random.nextInt(maxY) * SIZE;
+    }
+
+    public void generatePosition(int boardWidth, int boardHeight, LinkedList<int[]> snakeBody) {
+        int maxX = boardWidth / SIZE;
+        int maxY = boardHeight / SIZE;
+        
+        boolean validPosition = false;
+        while (!validPosition) {
+            x = random.nextInt(maxX) * SIZE;
+            y = random.nextInt(maxY) * SIZE;
+            
+            validPosition = true;
+            for (int[] segment : snakeBody) {
+                if (segment[0] == x && segment[1] == y) {
+                    validPosition = false;
+                    break;
+                }
+            }
+        }
     }
 
     public int getX() {

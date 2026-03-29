@@ -185,8 +185,25 @@ public class GameEngine {
         if (food.isEaten(snake.getHead())) {
             snake.grow();
             score += 10;
-            food.generatePosition(boardWidth, boardHeight);
+            notifyScoreChanged();
+            food.generatePosition(boardWidth, boardHeight, snake.getBody());
         }
+    }
+    
+    private void notifyScoreChanged() {
+        if (scoreChangedCallback != null) {
+            scoreChangedCallback.onScoreChanged(score);
+        }
+    }
+    
+    public interface ScoreChangedCallback {
+        void onScoreChanged(int score);
+    }
+    
+    private ScoreChangedCallback scoreChangedCallback;
+    
+    public void setScoreChangedCallback(ScoreChangedCallback callback) {
+        this.scoreChangedCallback = callback;
     }
 
     private void checkSelfCollision() {
