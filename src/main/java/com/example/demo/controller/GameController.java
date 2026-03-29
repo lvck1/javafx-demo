@@ -39,9 +39,17 @@ public class GameController implements Initializable {
     }
 
     private void initGame() {
+        double width = gameCanvas.getWidth();
+        double height = gameCanvas.getHeight();
+        
+        if (width <= 0 || height <= 0) {
+            width = 600;
+            height = 400;
+        }
+        
         gameEngine = new GameEngine(
-            (int) gameCanvas.getWidth(),
-            (int) gameCanvas.getHeight(),
+            (int) width,
+            (int) height,
             currentDifficulty
         );
 

@@ -189,10 +189,12 @@ public class GameEngine {
         gc.setFill(Color.RED);
         gc.fillOval(food.getX() + 1, food.getY() + 1, Food.getSize() - 2, Food.getSize() - 2);
 
-        gc.setFill(Color.WHITE);
-        gc.setFont(Font.font(20));
-        gc.fillText("分数: " + score, 10, 25);
-        gc.fillText("难度: " + difficulty.getName(), 10, 50);
+        if (!gameOver && !paused) {
+            gc.setFill(Color.WHITE);
+            gc.setFont(Font.font(24));
+            gc.fillText("分数: " + score, boardWidth / 2 - 50, 40);
+            gc.fillText("难度: " + difficulty.getName(), boardWidth / 2 - 50, 70);
+        }
 
         if (autoMode) {
             gc.setFill(Color.GOLD);
