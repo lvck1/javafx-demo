@@ -104,19 +104,51 @@ public class GameEngine {
         int foodY = food.getY();
 
         Snake.Direction currentDir = snake.getDirection();
-        Snake.Direction newDir = currentDir;
-
-        if (foodX > head[0] && currentDir != Snake.Direction.LEFT) {
-            newDir = Snake.Direction.RIGHT;
-        } else if (foodX < head[0] && currentDir != Snake.Direction.RIGHT) {
-            newDir = Snake.Direction.LEFT;
-        } else if (foodY > head[1] && currentDir != Snake.Direction.UP) {
-            newDir = Snake.Direction.DOWN;
-        } else if (foodY < head[1] && currentDir != Snake.Direction.DOWN) {
-            newDir = Snake.Direction.UP;
+        
+        int nextX = head[0];
+        int nextY = head[1];
+        
+        if (foodX > head[0]) nextX += Snake.getSize();
+        else if (foodX < head[0]) nextX -= Snake.getSize();
+        
+        if (foodY > head[1]) nextY += Snake.getSize();
+        else if (foodY < head[1]) nextY -= Snake.getSize();
+        
+        if (willCollideWithSelf(nextX, nextY)) {
+            Snake.Direction prevDir = (snake.getBody().size() >= 2) ? 
+                getDirectionFromPos(snake.getBody().get(1)) : currentDir;
+            snake.setDirection(prevDir);
+            return;
         }
 
-        snake.setDirection(newDir);
+        if (foodX > head[0] && currentDir != Snake.Direction.LEFT) {
+            snake.setDirection(Snake.Direction.RIGHT);
+        } else if (foodX < head[0] && currentDir != Snake.Direction.RIGHT) {
+            snake.setDirection(Snake.Direction.LEFT);
+        } else if (foodY > head[1] && currentDir != Snake.Direction.UP) {
+            snake.setDirection(Snake.Direction.DOWN);
+        } else if (foodY < head[1] && currentDir != Snake.Direction.DOWN) {
+            snake.setDirection(Snake.Direction.UP);
+        }
+    }
+    
+    private boolean willCollideWithSelf(int x, int y) {
+        for (int i = 1; i < snake.getBody().size(); i++) {
+            int[] segment = snake.getBody().get(i);
+            if (segment[0] == x && segment[1] == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private Snake.Direction getDirectionFromPos(int[] pos) {
+        int[] head = snake.getHead();
+        if (pos[0] > head[0]) return Snake.Direction.RIGHT;
+        if (pos[0] < head[0]) return Snake.Direction.LEFT;
+        if (pos[1] > head[1]) return Snake.Direction.DOWN;
+        if (pos[1] < head[1]) return Snake.Direction.UP;
+        return Snake.Direction.UP;
     }
 
     public void toggleAutoMode() {
