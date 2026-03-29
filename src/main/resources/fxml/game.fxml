@@ -43,6 +43,7 @@
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
             <Button text="暂停/继续" onAction="#handlePause" styleClass="game-button" prefWidth="100"/>
+            <Button text="幻神模式" onAction="#handleToggleAutoMode" styleClass="game-button" prefWidth="100"/>
             <Button text="重新开始" onAction="#handleRestart" styleClass="game-button" prefWidth="100"/>
             <Button text="返回菜单" onAction="#handleBackToMenu" styleClass="game-button" prefWidth="100"/>
         </HBox>

@@ -4,7 +4,6 @@ import com.example.demo.App;
 import com.example.demo.model.Snake;
 import com.example.demo.service.GameEngine;
 import com.example.demo.util.ScoreManager;
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -70,6 +69,11 @@ public class GameController implements Initializable {
             return;
         }
 
+        if (code == KeyCode.G) {
+            gameEngine.toggleAutoMode();
+            return;
+        }
+
         if (gameEngine.isGameOver() || gameEngine.isPaused()) {
             return;
         }
@@ -85,6 +89,11 @@ public class GameController implements Initializable {
     @FXML
     private void handlePause() {
         gameEngine.togglePause();
+    }
+
+    @FXML
+    private void handleToggleAutoMode() {
+        gameEngine.toggleAutoMode();
     }
 
     @FXML

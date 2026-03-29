@@ -37,6 +37,7 @@ public class GameEngine {
     private int score;
     private boolean gameOver;
     private boolean paused;
+    private boolean autoMode;
     private AnimationTimer gameLoop;
     private long lastUpdate;
     private GameOverCallback gameOverCallback;
@@ -61,6 +62,7 @@ public class GameEngine {
         score = 0;
         gameOver = false;
         paused = false;
+        autoMode = false;
         lastUpdate = 0;
     }
 
@@ -87,10 +89,42 @@ public class GameEngine {
     }
 
     private void update() {
+        if (autoMode) {
+            autoMoveTowardsFood();
+        }
         snake.move();
         checkWallCollision();
         checkFoodCollision();
         checkSelfCollision();
+    }
+
+    private void autoMoveTowardsFood() {
+        int[] head = snake.getHead();
+        int foodX = food.getX();
+        int foodY = food.getY();
+
+        Snake.Direction currentDir = snake.getDirection();
+        Snake.Direction newDir = currentDir;
+
+        if (foodX > head[0] && currentDir != Snake.Direction.LEFT) {
+            newDir = Snake.Direction.RIGHT;
+        } else if (foodX < head[0] && currentDir != Snake.Direction.RIGHT) {
+            newDir = Snake.Direction.LEFT;
+        } else if (foodY > head[1] && currentDir != Snake.Direction.UP) {
+            newDir = Snake.Direction.DOWN;
+        } else if (foodY < head[1] && currentDir != Snake.Direction.DOWN) {
+            newDir = Snake.Direction.UP;
+        }
+
+        snake.setDirection(newDir);
+    }
+
+    public void toggleAutoMode() {
+        autoMode = !autoMode;
+    }
+
+    public boolean isAutoMode() {
+        return autoMode;
     }
 
     private void checkWallCollision() {
@@ -159,6 +193,12 @@ public class GameEngine {
         gc.setFont(Font.font(20));
         gc.fillText("分数: " + score, 10, 25);
         gc.fillText("难度: " + difficulty.getName(), 10, 50);
+
+        if (autoMode) {
+            gc.setFill(Color.GOLD);
+            gc.setFont(Font.font(18));
+            gc.fillText("幻神模式", boardWidth - 120, 25);
+        }
 
         if (gameOver) {
             gc.setFill(Color.rgb(0, 0, 0, 0.7));
