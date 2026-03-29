@@ -74,6 +74,7 @@ public class GameController implements Initializable {
 
         if (code == KeyCode.P) {
             gameEngine.togglePause();
+            gameCanvas.requestFocus();
             return;
         }
 
@@ -92,6 +93,12 @@ public class GameController implements Initializable {
             case LEFT, A -> gameEngine.setSnakeDirection(Snake.Direction.LEFT);
             case RIGHT, D -> gameEngine.setSnakeDirection(Snake.Direction.RIGHT);
         }
+        
+        updateScoreLabel();
+    }
+    
+    private void updateScoreLabel() {
+        scoreLabel.setText("分数: " + gameEngine.getScore());
     }
 
     @FXML
