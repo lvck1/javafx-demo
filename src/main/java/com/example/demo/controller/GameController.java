@@ -132,13 +132,22 @@ public class GameController implements Initializable {
     }
 
     private void showGameOverDialog(int score) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        gameEngine.stop();
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("游戏结束");
         alert.setHeaderText("游戏结束！");
-        alert.setContentText("你的得分: " + score + "\n分数已保存到积分榜！");
+        alert.setContentText("你的得分: " + score + "\n\n请选择：");
+
+        ButtonType restartBtn = new ButtonType("重新开始");
+        ButtonType menuBtn = new ButtonType("返回主菜单");
+        
+        alert.getButtonTypes().setAll(restartBtn, menuBtn);
 
         alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
+            if (response == restartBtn) {
+                handleRestart();
+            } else if (response == menuBtn) {
                 handleBackToMenu();
             }
         });
